@@ -6,7 +6,14 @@ class CPU:
     """Main CPU class."""
 
     def __init__(self):
-        """Construct a new CPU."""
+        self.storage = [None] * 25
+    
+    def ram_read(self, address):
+        # accepts address to read and returns value stored there
+        pass
+    
+    def ram_write(self, value, address):
+         # accepts value to write, address to write it to
         pass
 
     def load(self):
