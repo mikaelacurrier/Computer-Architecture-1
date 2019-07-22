@@ -10,11 +10,11 @@ class CPU:
     
     def ram_read(self, address):
         # accepts address to read and returns value stored there
-        pass
+        return self.storage[address]
     
     def ram_write(self, value, address):
-         # accepts value to write, address to write it to
-        pass
+         # accepts value to write, address to write it there
+        self.storage[address] = value
 
     def load(self):
         """Load a program into memory."""
