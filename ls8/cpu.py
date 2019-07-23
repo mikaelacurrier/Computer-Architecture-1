@@ -6,15 +6,17 @@ class CPU:
     """Main CPU class."""
 
     def __init__(self):
-        self.storage = [None] * 25
+        self.ram = [None] * 256
+        self.pc = 0
+        self.reg = [0] * 8
     
     def ram_read(self, address):
         # accepts address to read and returns value stored there
-        return self.storage[address]
+        return self.ram[address]
     
     def ram_write(self, value, address):
          # accepts value to write, address to write it there
-        self.storage[address] = value
+        self.ram[address] = value
 
     def load(self):
         """Load a program into memory."""
@@ -44,6 +46,8 @@ class CPU:
         if op == "ADD":
             self.reg[reg_a] += self.reg[reg_b]
         #elif op == "SUB": etc
+        if op == "MUL":
+            self.reg[reg_a] += self.reg[reg_b]
         else:
             raise Exception("Unsupported ALU operation")
 
@@ -69,4 +73,25 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        pass
+        running = True
+
+        while running:
+            reg = self.ram[self.pc]
+            opr_a = self.ram[self.pc + 1]
+            opr_b = self.ram[self.pc + 2]
+
+            if reg == 0b00000001:
+                running = False
+                self.pc += 1
+            
+            elif reg == 0b10000010:
+                self.reg[opr_a] = opr_b
+                self.pc += 3
+            
+            elif reg == 0b01000111:
+                print(self.reg[opr_a])
+                self.pc += 2
+
+            else:
+                print(f'Uknown command {reg}')
+                sys.exit(1)
